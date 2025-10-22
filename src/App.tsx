@@ -30,11 +30,11 @@ const getSortedGoods = (
   const sortedGoods = [...goods];
 
   switch (sortType) {
-    case 'alphabet':
+    case SortType.Alphabet:
       sortedGoods.sort((a, b) => a.localeCompare(b));
       break;
 
-    case 'length':
+    case SortType.Length:
       sortedGoods.sort((a, b) => a.length - b.length);
       break;
 
