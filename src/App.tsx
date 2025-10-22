@@ -16,12 +16,16 @@ export const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-type SortType = 'alphabet' | 'length' | '';
+export enum SortType {
+  None = '',
+  Alphabet = 'alphabet',
+  Length = 'length',
+}
 
 const getSortedGoods = (
   goods: string[],
   sortType: SortType,
-  isReversed: boolean
+  isReversed: boolean,
 ): string[] => {
   const sortedGoods = [...goods];
 
@@ -42,7 +46,7 @@ const getSortedGoods = (
 };
 
 export const App: React.FC = () => {
-  const [activeSort, setActiveSort] = useState<SortType>('');
+  const [activeSort, setActiveSort] = useState<SortType>(SortType.None);
   const [isReversed, setIsReversed] = useState<boolean>(false);
 
   const sortedGoods = getSortedGoods(goodsFromServer, activeSort, isReversed);
@@ -56,11 +60,11 @@ export const App: React.FC = () => {
   };
 
   const resetGoods = () => {
-    setActiveSort('');
+    setActiveSort(SortType.None);
     setIsReversed(false);
   };
 
-  const isModified = activeSort !== '' || isReversed;
+  const isModified = activeSort !== SortType.None || isReversed;
 
   return (
     <div className="section content">
@@ -68,9 +72,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button', 'is-info', {
-            'is-light': activeSort !== 'alphabet',
+            'is-light': activeSort !== SortType.Alphabet,
           })}
-          onClick={() => applySort('alphabet')}
+          onClick={() => applySort(SortType.Alphabet)}
         >
           Sort alphabetically
         </button>
@@ -78,9 +82,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button', 'is-success', {
-            'is-light': activeSort !== 'length',
+            'is-light': activeSort !== SortType.Length,
           })}
-          onClick={() => applySort('length')}
+          onClick={() => applySort(SortType.Length)}
         >
           Sort by length
         </button>
